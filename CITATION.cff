@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: "Fexus"
+message: "If you use Fexus in a project or publication, please cite the repository."
+type: software
+authors:
+  - family-names: "Fexus contributors"
+version: "0.2.0"
+license: "MIT"
+repository-code: "https://github.com/filipek805/fexus"

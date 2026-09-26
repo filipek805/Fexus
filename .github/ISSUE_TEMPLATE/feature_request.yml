@@ -1,0 +1,17 @@
+name: Feature request
+description: Suggest a feature or integration
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should Fexus do?
+    validations:
+      required: true

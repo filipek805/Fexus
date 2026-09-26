@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fexus"
+version = "0.2.0"
+description = "Free local-first desktop control center for homelabs, servers, Raspberry Pis, ESP devices, Docker, VMs, NAS systems and network equipment."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+    "PySide6>=6.8,<7",
+    "psutil>=7,<8",
+    "paramiko>=3.5,<4",
+]
+
+[project.optional-dependencies]
+docker = ["docker>=7,<8"]
+snmp = ["pysnmp>=7,<8"]
+serial = ["pyserial>=3.5,<4"]
+dev = [
+    "pytest>=8,<9",
+    "ruff>=0.12,<1",
+]
+
+[project.scripts]
+fexus = "fexus.app.main:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.setuptools.packages.find]
+include = ["fexus*"]
+
+[tool.setuptools.package-data]
+"fexus.app" = ["ui/*.qss"]
