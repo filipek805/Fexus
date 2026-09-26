@@ -1,5 +1,5 @@
 # Fexus
-
+follow me on tiktok bitcoinmuncher and anyone who wants to donate to help fund the project shall text me on tiktok
 > A free, local-first desktop control center for homelabs, servers, Raspberry Pis, ESP devices, Docker, virtual machines, NAS systems, and network equipment.
 
 Fexus is a **desktop application**, not a website.
