@@ -20,7 +20,7 @@ docker = ["docker>=7,<8"]
 snmp = ["pysnmp>=7,<8"]
 serial = ["pyserial>=3.5,<4"]
 dev = [
-    "pytest>=8,<9",
+    "pytest>=8,<10",
     "ruff>=0.12,<1",
 ]
 
