@@ -1,225 +1,94 @@
 # Fexus setup
 
-Fexus is a native desktop application.
+Fexus is a native desktop application. You do **not** deploy a web server.
 
-You do **not** deploy a web server.
+## Linux / Debian / Ubuntu
 
-## 1. Install Python
-
-Use Python 3.11 or newer.
-
-Check:
+Install the runtime packages first:
 
 ```bash
-python3 --version
+sudo apt update
+sudo apt install -y python3-venv libxcb-cursor0
 ```
 
-## 2. Download Fexus
+Then:
 
 ```bash
 git clone https://github.com/filipek805/fexus.git
 cd fexus
-```
-
-## 3. Create a virtual environment
-
-Linux/macOS:
-
-```bash
 python3 -m venv .venv
 source .venv/bin/activate
-```
-
-Windows PowerShell:
-
-```powershell
-py -m venv .venv
-.venv\Scripts\Activate.ps1
-```
-
-## 4. Install Fexus
-
-```bash
 pip install -e .
-```
-
-For optional integrations:
-
-```bash
-pip install -e ".[docker,serial,snmp]"
-```
-
-## 5. Launch
-
-```bash
 fexus
 ```
 
-Or:
+Optional integrations:
 
 ```bash
-python -m fexus.app
+pip install -e ".[docker,serial,mqtt,ble,mdns]"
 ```
 
-A Fexus application window should open.
+SNMP needs Net-SNMP on the host:
 
-## 6. Add a server
-
-Open:
-
-```text
-Devices → Add device
+```bash
+sudo apt install -y snmp
 ```
 
-Example:
+## Device-by-device setup
+
+For the target-side steps—enabling SSH, configuring an MQTT broker, preparing an ESP/Pico serial connection, enabling SNMP, setting up RDP/VNC/SMB, Wake-on-LAN and more, see [device-setup.md](device-setup.md).
+
+## Add a server
+
+Open **Devices → Add device** and use:
 
 ```text
 Name: Main Server
 Type: server
+Connection: ssh
 Address: 192.168.1.20
 Port: 22
 SSH username: filip
 Tags: server, docker
 ```
 
-Fexus attempts a read-only SSH collection.
+Fexus uses the system SSH known-hosts file. First connect normally with `ssh` so the host key is known and trusted.
 
-### Recommended SSH setup
+## Discover devices
 
-On the Fexus computer:
+Open **Discover** and use:
 
-```bash
-ssh-keygen -t ed25519
-```
+- **LAN neighbors** for the local ARP/neighbor table
+- **mDNS** for local network services
+- **USB / Serial** for embedded devices
+- **Bluetooth LE** for nearby BLE hardware
 
-Copy the key:
+Select a discovered entry and click **Add selected**.
 
-```bash
-ssh-copy-id filip@192.168.1.20
-```
+## Connect
 
-Confirm:
+The **Connect** workspace supports:
 
-```bash
-ssh filip@192.168.1.20
-```
+- SSH
+- HTTP / HTTPS
+- MQTT
+- SNMP
+- ICMP
+- TCP
+- SMB port checks
+- RDP / VNC client launching
+- Wake-on-LAN
 
-Once normal SSH works, Fexus can usually use the same connection.
+MQTT publishing needs the `mqtt` extra. RDP/VNC needs a compatible desktop client already installed on the host.
 
-## 7. Add a Raspberry Pi
+## Storage
 
-The process is the same.
-
-Set:
-
-```text
-Type: raspberry-pi
-Address: raspberrypi.local
-Username: pi
-```
-
-Use the current username for your Pi distribution.
-
-## 8. Add a NAS
-
-Use the NAS hostname or IP.
-
-For example:
+Fexus uses SQLite locally:
 
 ```text
-Type: NAS
-Address: 192.168.1.40
+Linux:   ~/.local/share/fexus/fexus.db
+macOS:   ~/Library/Application Support/Fexus/fexus.db
+Windows: %LOCALAPPDATA%\Fexus\fexus.db
 ```
 
-Fexus can perform basic reachability checks.
-
-## 9. Add network equipment
-
-Use:
-
-```text
-Type: network
-Address: 192.168.1.1
-```
-
-The Network page can also run manual reachability and TCP checks.
-
-## 10. ESP devices
-
-Connect an ESP32/ESP8266 to USB.
-
-Open:
-
-```text
-Services
-```
-
-Fexus checks serial ports and lists detected devices.
-
-Optional serial support:
-
-```bash
-pip install pyserial
-```
-
-For advanced telemetry, use the plugin/integration system described in `docs/integrations.md`.
-
-## 11. Docker
-
-Install the Docker Python integration:
-
-```bash
-pip install -e ".[docker]"
-```
-
-Then start Docker normally.
-
-Fexus checks the local Docker socket using the official Docker SDK.
-
-## 12. Virtual machines
-
-On a Linux host with libvirt:
-
-```bash
-virsh list --all
-```
-
-Fexus uses the same command to discover local VMs.
-
-## 13. Where data is stored
-
-Linux:
-
-```text
-~/.local/share/fexus/fexus.db
-```
-
-macOS:
-
-```text
-~/Library/Application Support/Fexus/fexus.db
-```
-
-Windows:
-
-```text
-%LOCALAPPDATA%\Fexus\fexus.db
-```
-
-Delete the database to reset the application.
-
-## 14. No account or cloud
-
-Fexus does not need:
-
-- a Fexus login
-- an internet connection
-- a cloud server
-- an API key
-- a subscription
-
-Internet access is only useful for installing dependencies or updating the software.
-
-## 15. Package Fexus for friends
-
-See `docs/building.md`.
+Upgrading from 0.2.x adds the new connection column automatically.

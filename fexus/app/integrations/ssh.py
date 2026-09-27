@@ -12,7 +12,8 @@ def collect_linux(host: str, username: str, port: int = 22, timeout: float = 4) 
     try:
         import paramiko
         client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.RejectPolicy())
         client.connect(
             hostname=host,
             port=port,

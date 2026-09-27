@@ -11,6 +11,7 @@ class Device:
     port: int | None = None
     status: str = "unknown"
     username: str = ""
+    connection: str = "auto"
     tags: list[str] = field(default_factory=list)
     metadata: dict = field(default_factory=dict)
     last_seen: datetime | None = None

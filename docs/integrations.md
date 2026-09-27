@@ -1,60 +1,82 @@
 # Integrations
 
+Fexus talks directly to local or remote equipment. No Fexus backend is required.
+
 ## SSH
 
-Used for Linux servers and Raspberry Pis.
+Used for Linux servers, Raspberry Pis and other Unix systems. Fexus uses the local SSH key/agent and verifies hosts using the system known-hosts database.
 
-Fexus looks for normal SSH keys and the user's SSH agent.
+## HTTP / HTTPS
 
-No Fexus daemon is required.
+Used for routers, NAS appliances, web dashboards and local HTTP APIs. Fexus performs a read-only GET health check.
+
+## MQTT
+
+The optional `paho-mqtt` dependency supports broker publishing. A basic TCP check works through the built-in connector even without the optional client.
+
+```bash
+pip install -e ".[mqtt]"
+```
+
+## SNMP
+
+The Connect page performs a read-only SNMPv2c `sysDescr` query through the Net-SNMP `snmpget` command.
+
+On Debian/Ubuntu:
+
+```bash
+sudo apt install -y snmp
+```
 
 ## Docker
 
-Optional dependency:
+Optional Docker SDK support reads the local Docker socket.
 
 ```bash
 pip install -e ".[docker]"
 ```
 
-Reads the local Docker socket.
-
-The first release is intentionally read-only.
-
 ## libvirt
 
-Uses `virsh`.
+Fexus uses `virsh list --all` and related read-only commands.
 
-```bash
-virsh list --all
-```
+## Serial / USB
 
-No Fexus daemon is required.
-
-## Serial
-
-Optional:
+Optional PySerial support enumerates locally attached serial devices.
 
 ```bash
 pip install -e ".[serial]"
 ```
 
-Serial enumeration uses pyserial.
+## Bluetooth LE
 
-## SNMP
-
-Optional:
+Optional Bleak support discovers nearby BLE advertisements.
 
 ```bash
-pip install -e ".[snmp]"
+pip install -e ".[ble]"
 ```
 
-SNMP profiles should be added as focused integrations.
+## mDNS
+
+Optional Zeroconf support discovers common local services such as SSH, HTTP, HTTPS, SMB and MQTT.
+
+```bash
+pip install -e ".[mdns]"
+```
+
+## RDP / VNC
+
+Fexus launches an installed external desktop client instead of implementing the remote desktop protocol itself.
+
+## Wake-on-LAN
+
+Fexus sends a standard magic packet to a stored MAC address.
 
 ## Network checks
 
-The base application can perform:
+Built-in network checks include:
 
-- ping reachability
+- ICMP reachability
 - TCP connection checks
 - latency measurement
 

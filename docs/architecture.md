@@ -3,41 +3,26 @@
 Fexus is a desktop application with local persistence.
 
 ```text
-┌──────────────────────────────────────────────┐
-│                    FEXUS                     │
-│              PySide6 desktop UI             │
-├──────────────────────────────────────────────┤
-│              Local application core          │
-│    inventory · events · configuration        │
-├──────────────────────────────────────────────┤
-│                 Integrations                 │
-│                                              │
-│ OS      SSH      Docker      libvirt         │
-│ Network SNMP     Serial     Future plugins   │
-├──────────────────────────────────────────────┤
-│                 SQLite                       │
-└──────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│                         FEXUS                            │
+│                    PySide6 desktop UI                    │
+├──────────────────────────────────────────────────────────┤
+│                     Application core                     │
+│       inventory · events · connection dispatcher        │
+├──────────────────────────────────────────────────────────┤
+│                       Discovery                          │
+│          LAN/ARP · mDNS · USB/serial · BLE              │
+├──────────────────────────────────────────────────────────┤
+│                      Integrations                        │
+│ SSH · HTTP · MQTT · SNMP · TCP · ICMP · Docker · VMs   │
+│ Serial · BLE · SMB · RDP · VNC · Wake-on-LAN            │
+├──────────────────────────────────────────────────────────┤
+│                         SQLite                           │
+└──────────────────────────────────────────────────────────┘
 ```
 
-The application does not require a Fexus backend.
+The application does not require a Fexus backend. Each integration is isolated so the UI can use a common `ConnectionResult` without knowing protocol-specific details.
 
-## Communication
+### Safety model
 
-Fexus talks directly to the systems being monitored.
-
-Examples:
-
-- SSH for Linux servers and Raspberry Pis
-- Docker SDK for local Docker
-- `virsh` for local libvirt
-- ICMP/TCP for network checks
-- serial/USB for embedded devices
-- SNMP for supported network appliances
-
-## Why this model
-
-A local desktop application is easier to self-host and easier to trust.
-
-The initial release intentionally favors read-only operations.
-
-Write operations can be added later with explicit confirmation and audit logging.
+The 0.3.0 update keeps inventory operations read-only by default. Explicit actions are limited to user-triggered operations such as MQTT publish, Wake-on-LAN and opening an external remote client. SSH host verification uses the system known-hosts database.

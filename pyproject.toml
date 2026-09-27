@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fexus"
-version = "0.2.0"
+version = "0.3.0"
 description = "Free local-first desktop control center for homelabs, servers, Raspberry Pis, ESP devices, Docker, VMs, NAS systems and network equipment."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -19,6 +19,9 @@ dependencies = [
 docker = ["docker>=7,<8"]
 snmp = ["pysnmp>=7,<8"]
 serial = ["pyserial>=3.5,<4"]
+mqtt = ["paho-mqtt>=2,<3"]
+ble = ["bleak>=0.22,<2"]
+mdns = ["zeroconf>=0.136,<1"]
 dev = [
     "pytest>=8,<9",
     "ruff>=0.12,<1",

@@ -1,6 +1,5 @@
 import json
 import sqlite3
-from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
 
@@ -25,6 +24,7 @@ class Storage:
           port INTEGER,
           status TEXT NOT NULL,
           username TEXT,
+          connection TEXT NOT NULL DEFAULT 'auto',
           tags TEXT NOT NULL,
           metadata TEXT NOT NULL,
           last_seen TEXT
@@ -37,22 +37,29 @@ class Storage:
           created_at TEXT NOT NULL
         );
         """)
+        self._ensure_column("devices", "connection", "TEXT NOT NULL DEFAULT 'auto'")
         self.conn.commit()
+
+    def _ensure_column(self, table: str, column: str, definition: str) -> None:
+        columns = {row[1] for row in self.conn.execute(f"PRAGMA table_info({table})")}
+        if column not in columns:
+            self.conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
 
     def close(self):
         self.conn.close()
 
     def save_device(self, device: Device):
         self.conn.execute("""
-        INSERT INTO devices (id,name,kind,address,port,status,username,tags,metadata,last_seen)
-        VALUES (?,?,?,?,?,?,?,?,?,?)
+        INSERT INTO devices (id,name,kind,address,port,status,username,connection,tags,metadata,last_seen)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)
         ON CONFLICT(id) DO UPDATE SET
           name=excluded.name, kind=excluded.kind, address=excluded.address,
           port=excluded.port, status=excluded.status, username=excluded.username,
-          tags=excluded.tags, metadata=excluded.metadata, last_seen=excluded.last_seen
+          connection=excluded.connection, tags=excluded.tags, metadata=excluded.metadata,
+          last_seen=excluded.last_seen
         """, (
             device.id, device.name, device.kind, device.address, device.port,
-            device.status, device.username, json.dumps(device.tags),
+            device.status, device.username, device.connection, json.dumps(device.tags),
             json.dumps(device.metadata), device.last_seen.isoformat() if device.last_seen else None,
         ))
         self.conn.commit()
@@ -68,7 +75,7 @@ class Storage:
     def add_event(self, level: str, source: str, message: str):
         self.conn.execute(
             "INSERT INTO events(level,source,message,created_at) VALUES(?,?,?,?)",
-            (level, source, message, datetime.now().isoformat()),
+            (level, source, message, datetime.now().astimezone().isoformat(timespec="seconds")),
         )
         self.conn.commit()
 
@@ -88,6 +95,7 @@ class Storage:
             port=row["port"],
             status=row["status"],
             username=row["username"] or "",
+            connection=row["connection"] or "auto",
             tags=json.loads(row["tags"] or "[]"),
             metadata=json.loads(row["metadata"] or "{}"),
             last_seen=datetime.fromisoformat(row["last_seen"]) if row["last_seen"] else None,
