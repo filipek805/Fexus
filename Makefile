@@ -1,20 +1,32 @@
-.PHONY: install dev test lint run build
+.PHONY: install dev test lint run build clean uninstall
+
+PYTHON := python3
+PIP := $(PYTHON) -m pip
 
 install:
-	python3 -m pip install -e .
+	$(PIP) install --user --break-system-packages -e .
 
 dev:
-	python3 -m pip install -e ".[dev]"
+	$(PIP) install --user --break-system-packages -e ".[dev]"
 
 test:
-	python3 -m pytest
+	$(PYTHON) -m pytest
 
 lint:
-	python3 -m ruff check .
+	$(PYTHON) -m ruff check .
 
 run:
-	python3 -m fexus.app
+	$(PYTHON) -m fexus.app
 
 build:
-	python3 -m pip install pyinstaller
-	pyinstaller --noconfirm --clean --windowed --name Fexus --collect-all PySide6 fexus/app/main.py
+	$(PIP) install --user --break-system-packages pyinstaller
+	pyinstaller --noconfirm --clean --windowed \
+		--name Fexus \
+		--collect-all PySide6 \
+		fexus/app/main.py
+
+clean:
+	rm -rf build dist *.spec
+
+uninstall:
+	$(PIP) uninstall -y fexus
