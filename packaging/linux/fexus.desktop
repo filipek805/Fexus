@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Fexus
+Comment=Local-first desktop control center for homelabs and devices
+Exec=python3 -m fexus
+TryExec=python3
+Icon=fexus
+Terminal=false
+Categories=System;Network;Utility;
+StartupNotify=true

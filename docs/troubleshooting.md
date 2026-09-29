@@ -11,13 +11,13 @@ python3 --version
 Reinstall:
 
 ```bash
-pip install -e .
+python3 -m pip install --user --break-system-packages -e .
 ```
 
 Try:
 
 ```bash
-python -m fexus.app
+python3 -m fexus
 ```
 
 ## SSH device is offline
@@ -48,7 +48,7 @@ docker ps
 Then install:
 
 ```bash
-pip install -e ".[docker]"
+python3 -m pip install --user --break-system-packages -e ".[docker]"
 ```
 
 On Linux, make sure your user can access Docker.
@@ -68,7 +68,7 @@ If `virsh` is missing, install your distribution's libvirt client package.
 Install:
 
 ```bash
-pip install -e ".[serial]"
+python3 -m pip install --user --break-system-packages -e ".[serial]"
 ```
 
 Then restart Fexus and reconnect the board.

@@ -1,11 +1,16 @@
 {
-  "version": "0.3.0",
+  "version": "0.3.1",
   "desktop_app": true,
   "cloud_required": false,
   "api_required": false,
-  "files": 57,
+  "files": 62,
   "compile_ok": true,
   "pytest_returncode": 0,
   "pytest_tests": 7,
-  "wheel_build_no_isolation": true
+  "wheel_build_no_isolation": true,
+  "packaging": {
+    "venv_required": false,
+    "desktop_launcher": true,
+    "standalone_pyinstaller": true
+  }
 }

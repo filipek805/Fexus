@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.1
+
+- Removed the required virtual-environment workflow from the normal desktop installation
+- Added `python3 -m fexus` package entry point
+- Fixed `make run` so it launches the desktop application correctly
+- Added Linux desktop launcher installation through `make install`
+- Added optional standalone PyInstaller installation through `make install-app`
+- Added a clickable desktop shortcut when `~/Desktop` exists
+- Updated setup, building and troubleshooting documentation for the no-venv workflow
+
 ## 0.3.0
 
 - Added a reusable connection layer for SSH, HTTP/HTTPS, MQTT, SNMP, ICMP, TCP, SMB, RDP and VNC checks

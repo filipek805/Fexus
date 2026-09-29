@@ -15,7 +15,7 @@ Used for routers, NAS appliances, web dashboards and local HTTP APIs. Fexus perf
 The optional `paho-mqtt` dependency supports broker publishing. A basic TCP check works through the built-in connector even without the optional client.
 
 ```bash
-pip install -e ".[mqtt]"
+python3 -m pip install --user --break-system-packages -e ".[mqtt]"
 ```
 
 ## SNMP
@@ -33,7 +33,7 @@ sudo apt install -y snmp
 Optional Docker SDK support reads the local Docker socket.
 
 ```bash
-pip install -e ".[docker]"
+python3 -m pip install --user --break-system-packages -e ".[docker]"
 ```
 
 ## libvirt
@@ -45,7 +45,7 @@ Fexus uses `virsh list --all` and related read-only commands.
 Optional PySerial support enumerates locally attached serial devices.
 
 ```bash
-pip install -e ".[serial]"
+python3 -m pip install --user --break-system-packages -e ".[serial]"
 ```
 
 ## Bluetooth LE
@@ -53,7 +53,7 @@ pip install -e ".[serial]"
 Optional Bleak support discovers nearby BLE advertisements.
 
 ```bash
-pip install -e ".[ble]"
+python3 -m pip install --user --break-system-packages -e ".[ble]"
 ```
 
 ## mDNS
@@ -61,7 +61,7 @@ pip install -e ".[ble]"
 Optional Zeroconf support discovers common local services such as SSH, HTTP, HTTPS, SMB and MQTT.
 
 ```bash
-pip install -e ".[mdns]"
+python3 -m pip install --user --break-system-packages -e ".[mdns]"
 ```
 
 ## RDP / VNC

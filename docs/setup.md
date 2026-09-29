@@ -2,13 +2,13 @@
 
 Fexus is a native desktop application. You do **not** deploy a web server.
 
-## Linux / Debian / Ubuntu
+## Linux / Debian / Ubuntu / Linux Mint
 
-Install the runtime packages first:
+Fexus does not require a virtual environment. Install the runtime packages first:
 
 ```bash
 sudo apt update
-sudo apt install -y python3-venv libxcb-cursor0
+sudo apt install -y python3 python3-pip libxcb-cursor0
 ```
 
 Then:
@@ -16,16 +16,33 @@ Then:
 ```bash
 git clone https://github.com/filipek805/fexus.git
 cd fexus
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e .
-fexus
+make install
+```
+
+Start it from the application menu or run:
+
+```bash
+make run
+```
+
+Direct module launch also works:
+
+```bash
+python3 -m fexus
+```
+
+`make install` installs a user-level desktop launcher. If `~/Desktop` exists, it also creates `~/Desktop/Fexus.desktop`.
+
+For a standalone executable that does not need Python at runtime:
+
+```bash
+make install-app
 ```
 
 Optional integrations:
 
 ```bash
-pip install -e ".[docker,serial,mqtt,ble,mdns]"
+python3 -m pip install --user --break-system-packages -e ".[docker,serial,mqtt,ble,mdns]"
 ```
 
 SNMP needs Net-SNMP on the host:

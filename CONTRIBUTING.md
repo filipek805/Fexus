@@ -7,27 +7,25 @@ Fexus is a free, open-source project and contributions are welcome.
 ```bash
 git clone https://github.com/filipek805/fexus.git
 cd fexus
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e ".[dev]"
+make dev
 ```
 
 Run tests:
 
 ```bash
-pytest
+make test
 ```
 
 Run linting:
 
 ```bash
-ruff check .
+make lint
 ```
 
 Run Fexus:
 
 ```bash
-fexus
+make run
 ```
 
 ## Before opening an issue
