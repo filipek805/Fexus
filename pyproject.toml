@@ -20,7 +20,7 @@ docker = ["docker>=7,<8"]
 snmp = ["pysnmp>=7,<8"]
 serial = ["pyserial>=3.5,<4"]
 mqtt = ["paho-mqtt>=2,<3"]
-ble = ["bleak>=0.22,<2"]
+ble = ["bleak>=0.22,<4"]
 mdns = ["zeroconf>=0.136,<1"]
 dev = [
     "pytest>=8,<9",
